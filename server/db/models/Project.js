@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const projectSchema = mongoose.Schema(
   {
     name: { type: String },
-    content: { type: Array, default: [] },
+    content: { type: mongoose.Schema.Types.Mixed, default: {} },
     status: { type: String, default: "Draft" },
     isApproved: { type: Boolean, default: false },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
