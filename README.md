@@ -2,7 +2,7 @@
 
 ## Development
 
-1. Fill in the `.env` file
+1. Place `.env` file under home folder. Delete last line in `.env` file (delete `EXPORT NODE_OPTIONS=--openssl-legacy-provider`)
 
     1. Get the `.env` file from another teammate/editor
 
