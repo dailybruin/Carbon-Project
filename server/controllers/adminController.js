@@ -125,21 +125,6 @@ const demote = async (req, res, next) => {
   }
 };
 
-const approve = async (req, res, next) => {
-  try {
-    const { id } = req.body;
-
-    const project = await ProjectModel.findById(id); //built in mongoose function
-
-    project.isApproved = true;
-    project.status = "Approved";
-    await project.save();
-
-    res.status(200).json({ message: "Project has been approved" });
-  } catch (error) {
-    res.status(500).json({ error, message: "Fail to approve" });
-  }
-};
 
 const createSection = async (req, res) => {
   try {
@@ -206,6 +191,25 @@ const getAllSections = async (req, res) => {
   }
 };
 
+
+//Admin Powers: Approving, Denying, Changes Requested, and Draft
+
+const approve = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+
+    const project = await ProjectModel.findById(id); //built in mongoose function
+
+    project.isApproved = true;
+    project.status = "Approved";
+    await project.save();
+
+    res.status(200).json({ message: "Project has been approved" });
+  } catch (error) {
+    res.status(500).json({ error, message: "Fail to approve" });
+  }
+};
+
 const deny = async (req, res, next) => {
   try {
     const { id } = req.body;
@@ -221,6 +225,39 @@ const deny = async (req, res, next) => {
     res.status(500).json({ error, message: "Fail to deny" });
   }
 };
+
+const changesRequested = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+
+    const project = await ProjectModel.findById(id); 
+
+    project.isApproved = false;
+    project.status = "changesRequested";
+    await project.save();
+
+    res.status(200).json({ message: "There have been some changes requested for your project." });
+  } catch (error) {
+    res.status(500).json({ error, message: "Fail to send requests" });
+  }
+};
+
+const draft = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+
+    const project = await ProjectModel.findById(id); 
+
+    project.isApproved = false;
+    project.status = "draft";
+    await project.save();
+
+    res.status(200).json({ message: "Project is drafted" });
+  } catch (error) {
+    res.status(500).json({ error, message: "Fail to draft" });
+  }
+};
+
 
 // to be tested and wait for implementation of section shcema
 const assignSection = async (req, res, next) => {
@@ -281,4 +318,6 @@ module.exports = {
   getAllSections,
   assignSection,
   removeSection,
+  changesRequested,
+  draft,
 };
