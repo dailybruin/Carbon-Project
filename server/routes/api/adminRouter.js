@@ -15,6 +15,9 @@ const {
   getAllSections,
   assignSection,
   removeSection,
+  changesRequested,
+  readyToView,
+  draft,
 } = require("../../controllers/adminController");
 
 const router = new Router();
@@ -27,6 +30,8 @@ router.post("/promote", isAdmin, promote);
 router.post("/demote", isSuperAdmin, demote);
 router.post("/approve", isAdmin, approve);
 router.post("/deny", isAdmin, deny);
+router.post("/changesRequested", isAdmin, changesRequested);
+router.post("/draft", isAdmin, draft);
 
 router.post("/createSection", isAdmin, createSection);
 router.delete("/:sectionid", isAdmin, deleteSection);

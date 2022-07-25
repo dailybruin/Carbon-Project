@@ -101,10 +101,27 @@ const deleteProject = async (req, res, next) => {
     }
 }
 
+const readyToView = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+
+    const project = await ProjectModel.findById(id); //built in mongoose function
+
+    project.isApproved = false;
+    project.status = "readyToView";
+    await project.save();
+
+    res.status(200).json({ message: "Project is currently under review" });
+  } catch (error) {
+    res.status(500).json({ error, message: "Fail to send for review" });
+  }
+};
+
 module.exports = {
     getAllProject,
     getProjectById,
     createProject,
     updateProject,
     deleteProject,
+    readyToView,
 };
